@@ -30,7 +30,13 @@ jobs:
       - name: Generate Android files
         working-directory: extracted/konkur_sabz
         run: flutter create . --platforms=android
-
+      - name: Verify Android files
+        run: |
+          echo "Project files:"
+          ls -la extracted/konkur_sabz
+          echo "Android files:"
+          find extracted/konkur_sabz/android -maxdepth 3 -type f
+          test -f extracted/konkur_sabz/android/app/build.gradle
       - name: Install dependencies
         working-directory: extracted/konkur_sabz
         run: flutter pub get
