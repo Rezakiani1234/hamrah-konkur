@@ -1,0 +1,43 @@
+name: Build Android APK
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract project
+        run: |
+          unzip -q konkur_sabz_starter.zip -d extracted
+          test -f extracted/konkur_sabz/pubspec.yaml
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Install dependencies
+        working-directory: extracted/konkur_sabz
+        run: flutter pub get
+
+      - name: Build APK
+        working-directory: extracted/konkur_sabz
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: hamrah-konkur-apk
+          path: extracted/konkur_sabz/build/app/outputs/flutter-apk/app-release.apk
+
