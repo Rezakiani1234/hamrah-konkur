@@ -27,6 +27,10 @@ jobs:
         with:
           channel: stable
 
+      - name: Generate Android files
+        working-directory: extracted/konkur_sabz
+        run: flutter create . --platforms=android
+
       - name: Install dependencies
         working-directory: extracted/konkur_sabz
         run: flutter pub get
@@ -40,4 +44,3 @@ jobs:
         with:
           name: hamrah-konkur-apk
           path: extracted/konkur_sabz/build/app/outputs/flutter-apk/app-release.apk
-
